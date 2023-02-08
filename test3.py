@@ -23,7 +23,13 @@ class MainScreen(BoxLayout):
         self.img = Image()
         self.fps = 60
 
-        buttonCode = "Button\n    id:'exitButton'\n    text:'Exit'\n    font_size:'30sp'\n    size_hint:(1,.2)\n    background_color: (1,0,0,1)\n    on_press:app.stop()"
+        buttonCode = "Button\n" \
+                     "    id:'exitButton'\n" \
+                     "    text:'Exit'\n" \
+                     "    font_size:'30sp'\n" \
+                     "    size_hint:(1,.2)\n" \
+                     "    background_color: (1,0,0,1)\n" \
+                     "    on_press:app.stop()"
         self.exitButton = Builder.load_string(buttonCode)
 
         self.outputtext = Label(text='', font_size='75px', size_hint=(1, .2), color=(1, 0, 0, 1))
@@ -36,7 +42,6 @@ class MainScreen(BoxLayout):
     def update(self, dt):
         if True:
             ret, frame = self.cam.read()
-
             if ret:
                 buf1 = cv2.flip(frame, 0)
                 buf = buf1.tobytes()
