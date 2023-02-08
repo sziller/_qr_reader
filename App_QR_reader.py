@@ -21,11 +21,10 @@ class ScanArea(BoxLayout):
         self.cam = cv2.VideoCapture(0)
         self.cam.set(3, 1920)
         self.cam.set(4, 1080)
-        self.img = Image()  # !!! ATTENTION !!!
+
         self.fps = 60
         self.schedule = None
         self.collected_strings = []
-        self.add_widget(self.img)
 
     def start_scanning(self):
         self.schedule = Clock.schedule_interval(self.update, 1.0 / self.fps)
@@ -43,7 +42,8 @@ class ScanArea(BoxLayout):
                 buf = buf1.tobytes()
                 image_texture = Texture.create(size=(frame.shape[1], frame.shape[0]), colorfmt='bgr')
                 image_texture.blit_buffer(buf, colorfmt='bgr', bufferfmt='ubyte')
-                self.img.texture = image_texture
+
+                self.ids.img.texture = image_texture
 
                 barcodes = pyzbar.decode(frame)
 
@@ -53,7 +53,8 @@ class ScanArea(BoxLayout):
                     scan_buf = scan_buf.tobytes()
                     scan_texture = Texture.create(size=(scan_img.shape[1], scan_img.shape[0]), colorfmt='bgr')
                     scan_texture.blit_buffer(scan_buf, colorfmt='bgr', bufferfmt='ubyte')
-                    self.img.texture = scan_texture
+
+                    self.ids.img.texture = scan_texture
 
                 else:
                     for barcode in barcodes:
@@ -64,7 +65,8 @@ class ScanArea(BoxLayout):
                         rectangle_texture = Texture.create(size=(rectangle_img.shape[1], rectangle_img.shape[0]),
                                                            colorfmt='bgr')
                         rectangle_texture.blit_buffer(rectangle_buf, colorfmt='bgr', bufferfmt='ubyte')
-                        self.img.texture = rectangle_texture
+
+                        self.ids.img.texture = rectangle_texture
 
                         actual_text = str(barcode.data.decode("utf-8"))
                         if actual_text not in self.collected_strings:
