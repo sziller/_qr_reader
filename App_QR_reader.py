@@ -17,18 +17,14 @@ class OperationAreaBox(BoxLayout):
 class ScanArea(BoxLayout):
     def __init__(self, **kwargs):
         super(ScanArea, self).__init__(**kwargs)
-        self.orientation = 'vertical'
-
+        self.orientation = 'horizontal'
         self.cam = cv2.VideoCapture(0)
         self.cam.set(3, 1920)
         self.cam.set(4, 1080)
         self.img = Image()  # !!! ATTENTION !!!
         self.fps = 60
-
         self.schedule = None
         self.collected_strings = []
-        # self.outputtext = Label(text='szoveg', font_size='75px', size_hint=(1, .2), color=(1, 0, 0, 1))
-        # self.add_widget(self.outputtext)
         self.add_widget(self.img)
 
     def start_scanning(self):
@@ -59,9 +55,6 @@ class ScanArea(BoxLayout):
                     scan_texture.blit_buffer(scan_buf, colorfmt='bgr', bufferfmt='ubyte')
                     self.img.texture = scan_texture
 
-                    # self.outputtext.text = str('')
-                    # self.outputtext.color = (1, 0, 0, 1)
-
                 else:
                     for barcode in barcodes:
                         (x, y, w, h) = barcode.rect
@@ -76,9 +69,6 @@ class ScanArea(BoxLayout):
                         actual_text = str(barcode.data.decode("utf-8"))
                         if actual_text not in self.collected_strings:
                             self.collected_strings.append(actual_text)
-
-                        # self.outputtext.text = str(barcode.data.decode("utf-8"))
-                        # self.outputtext.color = (0, 1, 0, 1)
 
 
 class OpAreaScan(OperationAreaBox):
